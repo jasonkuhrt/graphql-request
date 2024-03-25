@@ -45,7 +45,7 @@ devDependencies:
     version: 7.3.1(eslint@8.57.0)(typescript@5.4.3)
   apollo-server-express:
     specifier: ^3.13.0
-    version: 3.13.0(express@4.19.1)(graphql@16.8.1)
+    version: 3.13.0(express@4.19.2)(graphql@16.8.1)
   body-parser:
     specifier: ^1.20.2
     version: 1.20.2
@@ -78,7 +78,7 @@ devDependencies:
     version: 0.2.17
   express:
     specifier: ^4.19.1
-    version: 4.19.1
+    version: 4.19.2
   get-port:
     specifier: ^7.1.0
     version: 7.1.0
@@ -1921,7 +1921,7 @@ packages:
       graphql: 16.8.1
     dev: true
 
-  /apollo-server-express@3.13.0(express@4.19.1)(graphql@16.8.1):
+  /apollo-server-express@3.13.0(express@4.19.2)(graphql@16.8.1):
     resolution: {integrity: sha512-iSxICNbDUyebOuM8EKb3xOrpIwOQgKxGbR2diSr4HP3IW8T3njKFOoMce50vr+moOCe1ev8BnLcw9SNbuUtf7g==}
     engines: {node: '>=12.0'}
     peerDependencies:
@@ -1938,7 +1938,7 @@ packages:
       apollo-server-types: 3.8.0(graphql@16.8.1)
       body-parser: 1.20.2
       cors: 2.8.5
-      express: 4.19.1
+      express: 4.19.2
       graphql: 16.8.1
       parseurl: 1.3.3
     transitivePeerDependencies:
@@ -2754,8 +2754,8 @@ packages:
       strip-final-newline: 3.0.0
     dev: true
 
-  /express@4.19.1:
-    resolution: {integrity: sha512-K4w1/Bp7y8iSiVObmCrtq8Cs79XjJc/RU2YYkZQ7wpUu5ZyZ7MtPHkqoMz4pf+mgXfNvo2qft8D9OnrH2ABk9w==}
+  /express@4.19.2:
+    resolution: {integrity: sha512-5T6nhjsT+EOMzuck8JjBHARTHfMht0POzlA60WV2pMD3gyXw2LZnZ+ueGdNxG+0calOJcWKbpFcuzLZ91YWq9Q==}
     engines: {node: '>= 0.10.0'}
     dependencies:
       accepts: 1.3.8
