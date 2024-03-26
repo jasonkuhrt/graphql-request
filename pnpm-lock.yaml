@@ -90,7 +90,7 @@ devDependencies:
     version: 2.12.6(graphql@16.8.1)
   happy-dom:
     specifier: ^14.3.6
-    version: 14.3.6
+    version: 14.3.7
   json-bigint:
     specifier: ^1.0.0
     version: 1.0.0
@@ -105,7 +105,7 @@ devDependencies:
     version: 5.4.3
   vitest:
     specifier: ^1.4.0
-    version: 1.4.0(@types/node@20.11.30)(happy-dom@14.3.6)
+    version: 1.4.0(@types/node@20.11.30)(happy-dom@14.3.7)
 
 packages:
 
@@ -3061,8 +3061,8 @@ packages:
     resolution: {integrity: sha512-59LZHPdGZVh695Ud9lRzPBVTtlX9ZCV150Er2W43ro37wVof0ctenSaskPPjN7lVTIN8mSZt8PHUNKZuNQUuxw==}
     engines: {node: ^12.22.0 || ^14.16.0 || ^16.0.0 || >=17.0.0}
 
-  /happy-dom@14.3.6:
-    resolution: {integrity: sha512-fUb3dn0iuyyxRGqwFoU5iy6wjozxt/Qw7zGeRMockbBlpOegrV7Y0HIYBMQw8X4s7qpu55Tu7cNFoRM8s9VW5A==}
+  /happy-dom@14.3.7:
+    resolution: {integrity: sha512-lUfDRGzjrVJF2pnvh13OL+qEJ9eDpcedVLm77a3aMg8gPGKXfG+xFMNk3cOWetjucU8FveJ4qcSC/EX55nJ4fQ==}
     engines: {node: '>=16.0.0'}
     dependencies:
       entities: 4.5.0
@@ -4722,7 +4722,7 @@ packages:
       fsevents: 2.3.3
     dev: true
 
-  /vitest@1.4.0(@types/node@20.11.30)(happy-dom@14.3.6):
+  /vitest@1.4.0(@types/node@20.11.30)(happy-dom@14.3.7):
     resolution: {integrity: sha512-gujzn0g7fmwf83/WzrDTnncZt2UiXP41mHuFYFrdwaLRVQ6JYQEiME2IfEjU3vcFL3VKa75XhI3lFgn+hfVsQw==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
@@ -4757,7 +4757,7 @@ packages:
       chai: 4.4.1
       debug: 4.3.4
       execa: 8.0.1
-      happy-dom: 14.3.6
+      happy-dom: 14.3.7
       local-pkg: 0.5.0
       magic-string: 0.30.8
       pathe: 1.1.2
