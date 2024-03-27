@@ -24,7 +24,7 @@ dependencies:
 devDependencies:
   '@tsconfig/node16':
     specifier: ^16.1.2
-    version: 16.1.2
+    version: 16.1.3
   '@types/body-parser':
     specifier: ^1.19.5
     version: 1.19.5
@@ -1375,8 +1375,8 @@ packages:
       - supports-color
     dev: true
 
-  /@tsconfig/node16@16.1.2:
-    resolution: {integrity: sha512-dQ4IMJsdighPkzI8YNdjZy9Ky2ZAj1m2EkCUfQ575djffboaVJrkl5RmHmmc4MEF7LXVv501aO8KeG5Aa43VHA==}
+  /@tsconfig/node16@16.1.3:
+    resolution: {integrity: sha512-9nTOUBn+EMKO6rtSZJk+DcqsfgtlERGT9XPJ5PRj/HNENPCBY1yu/JEj5wT6GLtbCLBO2k46SeXDaY0pjMqypw==}
     dev: true
 
   /@types/accepts@1.3.7:
