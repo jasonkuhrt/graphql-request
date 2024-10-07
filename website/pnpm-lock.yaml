@@ -22,7 +22,7 @@ importers:
         version: 2.0.5
       es-toolkit:
         specifier: ^1.23.0
-        version: 1.23.0
+        version: 1.24.0
       floating-vue:
         specifier: ^5.2.2
         version: 5.2.2(vue@3.5.10(typescript@5.6.2))
@@ -863,8 +863,8 @@ packages:
     resolution: {integrity: sha512-V0hjH4dGPh9Ao5p0MoRY6BVqtwCjhz6vI5LT8AJ55H+4g9/4vbHx1I54fS0XuclLhDHArPQCiMjDxjaL8fPxhw==}
     engines: {node: '>=0.12'}
 
-  es-toolkit@1.23.0:
-    resolution: {integrity: sha512-1Caq9T90fX973dnm8BIEBN9l9pffbxxbZYZYwIy/B4g8oFwNTMcbbqzvIWV4XVZlHY6A8RLZvI/3agxF0CmOPA==}
+  es-toolkit@1.24.0:
+    resolution: {integrity: sha512-nZM+MRSGhKjCdjvqWEFr5Jns6vxoXtBcsl4/cEsGMgsMx8Z2ato4vBTGMUSIQBZJgEdKyNcgGh42yu9xiuNYtQ==}
 
   esbuild@0.21.5:
     resolution: {integrity: sha512-mg3OPMV4hXywwpoDxu3Qda5xCKQi+vCTZq8S9J/EpkhB2HzKXq4SNFZE3+NK93JYxc8VMSep+lOUSC/RVKaBqw==}
@@ -2158,7 +2158,7 @@ snapshots:
 
   entities@4.5.0: {}
 
-  es-toolkit@1.23.0: {}
+  es-toolkit@1.24.0: {}
 
   esbuild@0.21.5:
     optionalDependencies:
