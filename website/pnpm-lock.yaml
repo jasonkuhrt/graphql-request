@@ -43,14 +43,14 @@ importers:
         version: 5.6.3
       vitepress-plugin-tabs:
         specifier: ^0.5.0
-        version: 0.5.0(vitepress@1.3.4(@algolia/client-search@5.7.0)(postcss@8.4.47)(search-insights@2.17.2)(typescript@5.6.3))(vue@3.5.11(typescript@5.6.3))
+        version: 0.5.0(vitepress@1.4.0(@algolia/client-search@5.7.0)(postcss@8.4.47)(search-insights@2.17.2)(typescript@5.6.3))(vue@3.5.11(typescript@5.6.3))
       vitepress-sidebar:
         specifier: ^1.27.1
         version: 1.27.1
     devDependencies:
       vitepress:
         specifier: ^1.3.4
-        version: 1.3.4(@algolia/client-search@5.7.0)(postcss@8.4.47)(search-insights@2.17.2)(typescript@5.6.3)
+        version: 1.4.0(@algolia/client-search@5.7.0)(postcss@8.4.47)(search-insights@2.17.2)(typescript@5.6.3)
 
 packages:
 
@@ -782,8 +782,8 @@ packages:
   balanced-match@1.0.2:
     resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==}
 
-  birpc@0.2.17:
-    resolution: {integrity: sha512-+hkTxhot+dWsLpp3gia5AkVHIsKlZybNT5gIYiDlNzJrmYPcTM9k5/w2uaj3IPpd7LlEYpmCj4Jj1nC41VhDFg==}
+  birpc@0.2.19:
+    resolution: {integrity: sha512-5WeXXAvTmitV1RqJFppT5QtUiz2p1mRSYU000Jkft5ZUCLJIk4uQriYNO50HknxKwM6jd8utNc66K1qGIwwWBQ==}
 
   brace-expansion@2.0.1:
     resolution: {integrity: sha512-XnAIvQ8eM+kC6aULx6wuQiwVsnzsi9d3WxzV3FpWTGA19F621kwdbsAcFKXgKUHZWsy+mY6iL1sHTxWEFCytDA==}
@@ -1387,8 +1387,8 @@ packages:
     resolution: {integrity: sha512-MdqDp5urRfSzvRqck6SMJAWXt71L4ZRepe9myBSy5jI779t4/ZXnl09yew/xGvBvgUPupCaZyNCk+XLYj7Rciw==}
     engines: {node: '>=18.0.0'}
 
-  vitepress@1.3.4:
-    resolution: {integrity: sha512-I1/F6OW1xl3kW4PaIMC6snxjWgf3qfziq2aqsDoFc/Gt41WbcRv++z8zjw8qGRIJ+I4bUW7ZcKFDHHN/jkH9DQ==}
+  vitepress@1.4.0:
+    resolution: {integrity: sha512-JXCv4EsKTDyAFb6C/UjZr7nsGAzZ6mafVk2rx7rG5o8N+B/4QstIk+iEOe/9dKoU6V624UIC6g1pZ+K63rxhlw==}
     hasBin: true
     peerDependencies:
       markdown-it-mathjax3: ^4
@@ -1982,7 +1982,7 @@ snapshots:
   '@vue/devtools-kit@7.4.6':
     dependencies:
       '@vue/devtools-shared': 7.4.6
-      birpc: 0.2.17
+      birpc: 0.2.19
       hookable: 5.5.3
       mitt: 3.0.1
       perfect-debounce: 1.0.0
@@ -2094,7 +2094,7 @@ snapshots:
 
   balanced-match@1.0.2: {}
 
-  birpc@0.2.17: {}
+  birpc@0.2.19: {}
 
   brace-expansion@2.0.1:
     dependencies:
@@ -2843,9 +2843,9 @@ snapshots:
     optionalDependencies:
       fsevents: 2.3.3
 
-  vitepress-plugin-tabs@0.5.0(vitepress@1.3.4(@algolia/client-search@5.7.0)(postcss@8.4.47)(search-insights@2.17.2)(typescript@5.6.3))(vue@3.5.11(typescript@5.6.3)):
+  vitepress-plugin-tabs@0.5.0(vitepress@1.4.0(@algolia/client-search@5.7.0)(postcss@8.4.47)(search-insights@2.17.2)(typescript@5.6.3))(vue@3.5.11(typescript@5.6.3)):
     dependencies:
-      vitepress: 1.3.4(@algolia/client-search@5.7.0)(postcss@8.4.47)(search-insights@2.17.2)(typescript@5.6.3)
+      vitepress: 1.4.0(@algolia/client-search@5.7.0)(postcss@8.4.47)(search-insights@2.17.2)(typescript@5.6.3)
       vue: 3.5.11(typescript@5.6.3)
 
   vitepress-sidebar@1.27.1:
@@ -2853,12 +2853,13 @@ snapshots:
       glob: 10.4.5
       gray-matter: 4.0.3
 
-  vitepress@1.3.4(@algolia/client-search@5.7.0)(postcss@8.4.47)(search-insights@2.17.2)(typescript@5.6.3):
+  vitepress@1.4.0(@algolia/client-search@5.7.0)(postcss@8.4.47)(search-insights@2.17.2)(typescript@5.6.3):
     dependencies:
       '@docsearch/css': 3.6.2
       '@docsearch/js': 3.6.2(@algolia/client-search@5.7.0)(search-insights@2.17.2)
       '@shikijs/core': 1.22.0
       '@shikijs/transformers': 1.22.0
+      '@shikijs/types': 1.22.0
       '@types/markdown-it': 14.1.2
       '@vitejs/plugin-vue': 5.1.4(vite@5.4.8)(vue@3.5.11(typescript@5.6.3))
       '@vue/devtools-api': 7.4.6
