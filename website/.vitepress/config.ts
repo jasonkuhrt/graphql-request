@@ -67,7 +67,7 @@ export default defineConfig({
   rewrites: {
     ':section/{:_(\\d+_)}?:one/{:_(\\d+_)}?:two/{:_(\\d+_)}?:three'   : ':section/:one/:two/:three',
     ':section/{:_(\\d+_)}?:one/{:_(\\d+_)}?:two'                      : ':section/:one/:two',
-    ':section/{:prefixOne(\\d+_)}?:one'                               : ':section/:one'
+    ':section/{:_(\\d+_)}?:one'                                       : ':section/:one'
   },
   title: 'Graffle',
   description: 'Minimalist Progressively Type Safe GraphQL Client For JavaScript.',

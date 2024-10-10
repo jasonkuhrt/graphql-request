@@ -94,6 +94,16 @@ export interface QueryMethods<$Config extends Utils.Config> {
       InferResult.Field<$SelectionSet, Index['Root']['Query']['fields']['abcEnum'], Index>
     >
   >
+  argInputObjectCircular: <$SelectionSet>(
+    args?: Utils.Exact<$SelectionSet, SelectionSet.Query.argInputObjectCircular$SelectionSetArguments>,
+  ) => Promise<
+    Utils.ResolveOutputReturnRootField<
+      $Config,
+      Index,
+      'argInputObjectCircular',
+      InferResult.Field<true, Index['Root']['Query']['fields']['argInputObjectCircular'], Index>
+    >
+  >
   date: () => Promise<
     Utils.ResolveOutputReturnRootField<
       $Config,

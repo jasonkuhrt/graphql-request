@@ -53,8 +53,8 @@ export const anyware = Anyware.create<HookSequence, HookMap, ExecutionResult>({
             : input.request.query as Nodes.DocumentNode
           : SelectionSetGraphqlMapper.toGraphQL({
             document: input.request.document,
-            customScalarsIndex: input.schemaIndex!.customScalars.input,
-          })
+            sddm: input.schemaIndex!.customScalars.input,
+          }).document
 
         injectTypenameOnRootResultFields({
           document,
@@ -67,8 +67,8 @@ export const anyware = Anyware.create<HookSequence, HookMap, ExecutionResult>({
           : SelectionSetGraphqlMapper.toGraphQL({
             // schema: input.schemaIndex!,
             document: input.request.document,
-            customScalarsIndex: input.schemaIndex!.customScalars.input,
-          })
+            sddm: input.schemaIndex!.customScalars.input,
+          }).document
       }
 
       const variables: Variables | undefined = input.interfaceType === `raw`

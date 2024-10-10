@@ -1,46 +1,90 @@
 import type { SelectionSet } from './_.js'
 import { Arguments, Directive, Indicator, InlineFragment, SelectAlias, SelectScalarsWildcard } from './_.js'
 
+export interface ParsedSelectionArguments {
+  type: 'Arguments'
+  arguments: Record<string, any>
+}
+
+export interface ParsedSelectionDirective {
+  type: 'Directive'
+  name: string
+  /**
+   * `null` when undefined is passed to a directive.
+   */
+
+  arguments: null | {
+    input: unknown
+    parsed: Record<string, any>
+  }
+}
+
+export interface ParsedSelectionInlineFragments {
+  type: 'InlineFragment'
+  typeCondition: string | null
+  selectionSets: SelectionSet.AnySelectionSet[]
+}
+
+export interface ParsedSelectionScalarsWildcard {
+  type: 'ScalarsWildcard'
+}
+
+export interface ParsedSelectionSelectionSet {
+  type: 'SelectionSet'
+  name: string
+  selectionSet: SelectionSet.AnySelectionSet
+}
+
+export interface ParsedSelectionIndicator {
+  type: 'Indicator'
+  name: string
+  select: boolean
+}
+
+export interface ParsedSelectionAlias {
+  type: 'Alias'
+  name: string
+  aliases: SelectAlias.SelectAliasMultiple
+}
+
+export type ParsedFieldSelection =
+  | ParsedSelectionSelectionSet
+  | ParsedSelectionIndicator
+
 export type ParsedSelection =
-  | {
-    type: 'Arguments'
-    arguments: Record<string, any>
-  }
-  | {
-    /**
-     * When undefined is passed to a directive.
-     */
-    type: 'DirectiveNoop'
-  }
-  | {
-    type: 'Directive'
-    name: string
-    argumentsInput: unknown
-    arguments: Record<string, any>
-  }
-  | {
-    type: 'InlineFragment'
-    typeCondition: string | null
-    selectionSets: SelectionSet.AnySelectionSet[]
-  }
-  | {
-    type: 'ScalarsWildcard'
-  }
-  | {
-    type: 'SelectionSet'
-    name: string
-    selectionSet: SelectionSet.AnySelectionSet
-  }
-  | {
-    type: 'Indicator'
-    name: string
-    select: boolean
-  }
-  | {
-    type: 'Alias'
-    name: string
-    aliases: SelectAlias.SelectAliasMultiple
-  }
+  | ParsedSelectionArguments
+  | ParsedSelectionDirective
+  | ParsedSelectionInlineFragments
+  | ParsedSelectionScalarsWildcard
+  | ParsedSelectionSelectionSet
+  | ParsedSelectionIndicator
+  | ParsedSelectionAlias
+
+export type ParsedFieldLevelSelection =
+  | ParsedSelectionArguments
+  | ParsedSelectionDirective
+
+export type ParsedInlineFragmentLevelSelection =
+  | ParsedSelectionDirective
+  | ParsedSelectionObjectLevel
+
+export type ParsedSelectionObjectLevel =
+  | ParsedSelectionInlineFragments
+  | ParsedSelectionScalarsWildcard
+  | ParsedSelectionSelectionSet
+  | ParsedSelectionIndicator
+  | ParsedSelectionAlias
+
+export const parseSelectionField = (key: string, value: any): ParsedFieldSelection => {
+  return parseSelection(key, value) as any
+}
+export const parseSelectionRoot = (key: string, value: any): ParsedSelectionObjectLevel => {
+  return parseSelection(key, value) as any
+}
+
+export const parseSelectionInlineFragment = (key: string, value: any): ParsedInlineFragmentLevelSelection => {
+  return parseSelection(key, value) as any
+}
 
 export const parseSelection = (key: string, value: any): ParsedSelection => {
   if (key === Arguments.key) {
@@ -57,16 +101,14 @@ export const parseSelection = (key: string, value: any): ParsedSelection => {
     if (!directiveDef) {
       throw new Error(`Unknown directive ${key}.`)
     }
-    if (value === undefined) {
-      return {
-        type: `DirectiveNoop`,
-      }
-    }
+
     return {
       type: `Directive`,
       name: directiveName,
-      argumentsInput: value,
-      arguments: directiveDef.normalizeArguments(value),
+      arguments: value === undefined ? null : {
+        input: value,
+        parsed: directiveDef.normalizeArguments(value),
+      },
     }
   }
 

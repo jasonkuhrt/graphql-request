@@ -14,6 +14,11 @@ export const InputObject = $.InputObject(`InputObject`, {
   idRequired: $.Input.Field($Scalar.ID),
 }, true)
 
+export const InputObjectCircular = $.InputObject(`InputObjectCircular`, {
+  circular: $.Input.Field(() => $.Input.Nullable(InputObjectCircular)),
+  date: $.Input.Field($.Input.Nullable($Scalar.Date)),
+}, true)
+
 export const InputObjectNested = $.InputObject(`InputObjectNested`, {
   InputObject: $.Input.Field(() => $.Input.Nullable(InputObject)),
 }, true)
@@ -135,6 +140,11 @@ export const Query = $.Object$(`Query`, {
   ),
   // @ts-ignore - circular types cannot infer. Ignore in case there are any. This comment is always added, it does not indicate if this particular type could infer or not.
   abcEnum: $.field('abcEnum', $.Output.Nullable(ABCEnum)),
+  argInputObjectCircular: $.field(
+    'argInputObjectCircular',
+    $.Output.Nullable($Scalar.String),
+    $.Args({ input: $.Input.Field($.Input.Nullable(InputObjectCircular)) }, true),
+  ),
   date: $.field('date', $.Output.Nullable($Scalar.Date)),
   dateArg: $.field(
     'dateArg',

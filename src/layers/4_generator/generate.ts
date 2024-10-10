@@ -1,5 +1,5 @@
 import fs from 'node:fs/promises'
-import { ModuleGeneratorRuntimeCustomScalars } from '../7_customScalars/RuntimeIndexCustomScalars.js'
+import { ModuleGeneratorRuntimeSchemaDrivenData } from '../7_customScalars/generator/RuntimeIndexCustomScalars.js'
 import { type Config, createConfig, type Input } from './config.js'
 import { ModuleGenerator_ } from './generators/_.js'
 import { ModuleGenerator__ } from './generators/__.js'
@@ -56,7 +56,7 @@ const generateCode = async (config: Config): Promise<GeneratedModule[]> => {
     ModuleGeneratorSchemaIndex,
     ModuleGeneratorSchemaBuildtime,
     ModuleGeneratorSchemaRuntime,
-    ModuleGeneratorRuntimeCustomScalars,
+    ModuleGeneratorRuntimeSchemaDrivenData,
     // Interface Stuff
     ModuleGeneratorSelectionSets,
     ModuleGeneratorSelect,

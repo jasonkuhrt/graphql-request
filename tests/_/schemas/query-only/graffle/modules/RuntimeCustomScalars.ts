@@ -1,3 +1,4 @@
+import type * as $Utilities from '../../../../../../src/entrypoints/utilities-for-generated.js'
 import * as CustomScalars from './Scalar.js'
 //
 //
@@ -87,7 +88,31 @@ import * as CustomScalars from './Scalar.js'
 //
 //
 
-// None of your GraphQLRootTypes have custom scalars.
+const Query: $Utilities.SchemaDrivenDataMap.OutputObject = {
+  f: {
+    id: {},
+    idNonNull: {},
+  },
+}
+
+//
+//
+//
+//
+//
+//
+// ==================================================================================================
+//                                       Reference Assignments
+//                                (avoids circular assignment issues)
+// ==================================================================================================
+//
+//
+//
+//
+//
+//
+
+// None of your types have references to other non-scalar/enum types.
 
 //
 //
@@ -105,4 +130,6 @@ import * as CustomScalars from './Scalar.js'
 //
 //
 
-export const $index = {}
+export const $index = {
+  Query,
+}

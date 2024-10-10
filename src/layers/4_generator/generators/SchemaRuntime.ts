@@ -27,7 +27,7 @@ import {
 import { Code } from '../../../lib/Code.js'
 import { Grafaid } from '../../../lib/grafaid/__.js'
 import type { AnyClass, AnyGraphQLOutputField } from '../../../lib/grafaid/graphql.js'
-import { ModuleGeneratorRuntimeCustomScalars } from '../../7_customScalars/RuntimeIndexCustomScalars.js'
+import { ModuleGeneratorRuntimeSchemaDrivenData } from '../../7_customScalars/generator/RuntimeIndexCustomScalars.js'
 import type { Config } from '../config.js'
 import { createModuleGenerator } from '../helpers/moduleGenerator.js'
 import { ModuleGeneratorData } from './Data.js'
@@ -48,7 +48,7 @@ export const ModuleGeneratorSchemaRuntime = createModuleGenerator(
         import * as Data from './${ModuleGeneratorData.name}.js'
         import * as $Scalar from './${ModuleGeneratorScalar.name}.js'
         import type { Index } from './${ModuleGeneratorSchemaIndex.name}.js'
-        import { $index as ${identifiers.$customScalarsIndex} } from './${ModuleGeneratorRuntimeCustomScalars.name}.js'
+        import { $index as ${identifiers.$customScalarsIndex} } from './${ModuleGeneratorRuntimeSchemaDrivenData.name}.js'
       `,
     )
 

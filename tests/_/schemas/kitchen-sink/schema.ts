@@ -152,6 +152,13 @@ const InputObjectNested = builder.inputType(`InputObjectNested`, {
   }),
 })
 
+const InputObjectCircular = builder.inputRef(`InputObjectCircular`).implement({
+  fields: t => ({
+    date: t.field({ type: `Date` }),
+    circular: t.field({ type: InputObjectCircular }),
+  }),
+})
+
 const InputObjectNestedNonNull = builder.inputType(`InputObjectNestedNonNull`, {
   fields: t => ({
     InputObject: t.field({ type: InputObject, required: true }),
@@ -232,6 +239,11 @@ builder.queryType({
       nullable: false,
       type: t.listRef(`Date`, { nullable: false }),
       resolve: () => [db.date0, db.date1],
+    }),
+    argInputObjectCircular: t.field({
+      type: `String`,
+      args: { input: t.arg({ type: InputObjectCircular }) },
+      resolve: (_, args) => JSON.stringify(args),
     }),
     dateArg: t.field({
       type: `Date`,

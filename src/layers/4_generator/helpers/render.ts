@@ -10,7 +10,7 @@ import {
 import { borderThickFullWidth, borderThinFullWidth, centerTo } from '../../../lib/text.js'
 import type { Config } from '../config.js'
 
-export const title1 = (title: string) => {
+export const title1 = (title: string, subTitle?: string) => {
   const titleDecorated = `
     //
     //
@@ -19,7 +19,7 @@ export const title1 = (title: string) => {
     //
     //
     // ${borderThickFullWidth}
-    // ${centerTo(borderThickFullWidth, title)}
+    // ${centerTo(borderThickFullWidth, title)}${subTitle ? `\n// ${centerTo(borderThickFullWidth, subTitle)}` : ``}
     // ${borderThickFullWidth}
     //
     //

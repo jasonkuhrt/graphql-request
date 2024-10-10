@@ -6,6 +6,7 @@ import {
   type EnumValueNode,
   type FieldNode,
   type FloatValueNode,
+  type FragmentSpreadNode,
   type InlineFragmentNode,
   type IntValueNode,
   Kind,
@@ -35,6 +36,7 @@ export type {
   DocumentNode,
   FieldNode,
   FloatValueNode,
+  FragmentSpreadNode,
   InlineFragmentNode,
   IntValueNode,
   ListValueNode,
@@ -47,6 +49,7 @@ export type {
   SelectionSetNode,
   StringValueNode,
   ValueNode,
+  VariableDefinitionNode,
   VariableNode,
 } from 'graphql'
 
@@ -68,6 +71,7 @@ export type $Any =
   | OperationDefinitionNode
   | NamedTypeNode
   | FieldNode
+  | FragmentSpreadNode
   | DocumentNode
   | ArgumentNode
   | EnumValueNode

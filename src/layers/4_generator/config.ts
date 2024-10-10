@@ -80,6 +80,10 @@ export interface Config {
       enabled: boolean
     }
   }
+  runtimeFeatures: {
+    customScalars: boolean
+    operationVariables: boolean
+  }
   options: {
     defaultSchemaUrl: URL | null
     format: boolean
@@ -138,6 +142,10 @@ export const createConfig = async (input: Input): Promise<Config> => {
     : []
 
   return {
+    runtimeFeatures: {
+      customScalars: true, // todo do not assume true
+      operationVariables: true, // todo do not assume true
+    },
     name: input.name ?? defaultName,
     paths: {
       project: {

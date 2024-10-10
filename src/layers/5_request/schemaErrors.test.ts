@@ -21,10 +21,10 @@ test.each<CasesQuery>([
   [`root field in fragment in alias`,   { ___: { resultNonNull: [`x`, {}] } },                       { ___: { resultNonNull: [`x`, { __typename: true  }] }}],
   [`root field alias `,                 { resultNonNull: [`x`, {}] },                                { resultNonNull: [`x`, { __typename: true }] }],
 ])(`Query %s`, (_, queryWithoutTypenameInput, queryWithTypenameInput) => {
-	const documentWithTypename = SelectionSetGraphqlMapper.toGraphQL({
+	const {document: documentWithTypename} = SelectionSetGraphqlMapper.toGraphQL({
     document: Select.Document.normalizeOrThrow({ query: { x: queryWithTypenameInput as any } })
   })
-  const documentWithoutTypename = SelectionSetGraphqlMapper.toGraphQL({
+  const { document: documentWithoutTypename } = SelectionSetGraphqlMapper.toGraphQL({
     document: Select.Document.normalizeOrThrow({ query: { x: queryWithoutTypenameInput as any } })
   })
   injectTypenameOnRootResultFields({

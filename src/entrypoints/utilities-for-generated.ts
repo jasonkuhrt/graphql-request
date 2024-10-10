@@ -9,5 +9,6 @@ export type {
 export { type DocumentRunner } from '../layers/6_client/requestMethods/document.js'
 export type { Config } from '../layers/6_client/Settings/Config.js'
 export { type AddTypenameToSelectedRootTypeResultFields } from '../layers/6_client/Settings/Config.js'
+export { type SchemaDrivenDataMap } from '../layers/7_customScalars/generator/SchemaDrivenDataMap.js'
 export { HKT } from '../lib/hkt/__.js'
 export { type Exact, type ExactNonEmpty, type UnionExpanded } from '../lib/prelude.js'

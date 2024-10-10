@@ -1,1 +1,1 @@
-export { toGraphQL } from './helpers.js'
+export { toGraphQL } from './toGraphQL.js'

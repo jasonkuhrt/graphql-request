@@ -15,9 +15,9 @@ import { casesExhausted } from '../../prelude.js'
 import { isGraphQLArgumentOrInputField, isGraphQLField, isScalarTypeAndCustom } from './schema.js'
 
 export const isHasCustomScalars = (
-  node: GraphQLNamedOutputType | GraphQLField<any, any> | GraphQLInputObjectType,
+  node: GraphQLNamedOutputType | GraphQLField<any, any> | GraphQLInputObjectType | GraphQLInputField | GraphQLArgument,
 ): boolean => {
-  if (isInputObjectType(node)) {
+  if (isInputObjectType(node) || isGraphQLArgumentOrInputField(node)) {
     return isHasCustomScalarInputs(node)
   }
 

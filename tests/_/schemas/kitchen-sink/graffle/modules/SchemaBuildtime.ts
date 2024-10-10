@@ -29,6 +29,13 @@ export namespace Root {
      * Query enum field documentation.
      */
     abcEnum: $.Field<'abcEnum', $.Output.Nullable<Enum.ABCEnum>, null>
+    argInputObjectCircular: $.Field<
+      'argInputObjectCircular',
+      $.Output.Nullable<$Scalar.String>,
+      $.Args<{
+        input: $.Input.Field<$.Input.Nullable<InputObject.InputObjectCircular>>
+      }, true>
+    >
     date: $.Field<'date', $.Output.Nullable<$Scalar.Date>, null>
     dateArg: $.Field<
       'dateArg',
@@ -231,6 +238,11 @@ export namespace InputObject {
     dateRequired: $.Input.Field<$Scalar.Date>
     id: $.Input.Field<$.Input.Nullable<$Scalar.ID>>
     idRequired: $.Input.Field<$Scalar.ID>
+  }, true>
+
+  export type InputObjectCircular = $.InputObject<'InputObjectCircular', {
+    circular: $.Input.Field<$.Input.Nullable<InputObject.InputObjectCircular>>
+    date: $.Input.Field<$.Input.Nullable<$Scalar.Date>>
   }, true>
 
   export type InputObjectNested = $.InputObject<'InputObjectNested', {

@@ -1,11 +1,20 @@
-import type { Nodes } from '../../lib/grafaid/_Nodes.js'
+import type { Grafaid } from '../../lib/grafaid/__.js'
 import type { Codec } from '../1_Schema/Hybrid/types/Scalar/codec.js'
 import type { Select } from '../2_Select/__.js'
-import type { CustomScalarsIndex } from '../4_generator/generators/SchemaIndex.js'
+import type { SchemaDrivenDataMap } from '../7_customScalars/generator/SchemaDrivenDataMap.js'
 import type { ValueMapper } from './nodes/Value.js'
 
 export interface Context {
+  /**
+   * Should variables be used for arguments?
+   */
+  extractOperationVariables: boolean
   captures: Captures
+  captureVariableForArgument: (input: {
+    name: string
+    value: any
+    sddmArgument: SchemaDrivenDataMap.ArgumentOrInputField
+  }) => Grafaid.Nodes.ArgumentNode
   hooks?: {
     value?: ValueMapper
   }
@@ -18,14 +27,12 @@ export interface Parsed {
 
 export interface Captures {
   variables: CapturedVariable[]
-  customScalarOutputs: CapturedCustomScalarOutput[]
 }
 
 export interface CapturedVariable {
   name: string
-  type: unknown
+  typeName: string
   value: unknown
-  location: VariableLocation
 }
 
 export interface CapturedCustomScalarOutput {
@@ -55,34 +62,26 @@ export type LocationStepArgument = { type: 'argument'; name: string }
 
 export type CodecString = Codec<any, string>
 
-export const isCodec = (value: unknown): value is CodecString =>
-  typeof value === `object` && value !== null && `encode` in value && typeof value.encode === `function`
+export type GraphQLPreOperationMapper<
+  $SDDMNode extends SchemaDrivenDataMap.Node,
+  $Return,
+  $Args extends [...any[]] = [],
+> = (
+  ...args: [
+    sddmNode: undefined | $SDDMNode,
+    ...$Args,
+  ]
+) => $Return
 
-type RootIndexPointer =
-  | CustomScalarsIndex
-  | IndexPointer
-
-type IndexPointer =
-  | CustomScalarsIndex
-  | CustomScalarsIndex.OutputObject
-  | CustomScalarsIndex.InputObject
-  | CustomScalarsIndex.InputField
-  | null
-
-export const advanceIndex = (pointer: RootIndexPointer, rootTypeOrSomeKey: string): IndexPointer => {
-  if (pointer === null) return pointer
-  if (isCodec(pointer)) return pointer
-  return (pointer as any)[rootTypeOrSomeKey] ?? null
-}
-
-export type GraphQLNodeMapper<
-  $Return extends Nodes.$Any,
+export type GraphQLPostOperationMapper<
+  $SDDMNode extends SchemaDrivenDataMap.Node,
+  $Return,
   $Args extends [...any[]] = [],
   $ContextExtension extends object = {},
 > = (
   ...args: [
     context: Context & $ContextExtension,
-    customScalarsIndexPointer: IndexPointer,
+    sddmNode: undefined | $SDDMNode,
     ...$Args,
   ]
 ) => $Return

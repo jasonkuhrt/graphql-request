@@ -17,7 +17,7 @@ export const CustomScalars = () =>
       if (decode.input.schemaIndex && !isError) {
         decodeCustomScalars({
           data: decode.input.result.data,
-          customScalarsIndex: decode.input.schemaIndex.customScalars.input, // todo drop input/output separation
+          sddm: decode.input.schemaIndex.customScalars.input, // todo drop input/output separation
           request: pack.input.request,
         })
       }

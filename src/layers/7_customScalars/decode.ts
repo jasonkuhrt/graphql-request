@@ -4,21 +4,21 @@ import { operationTypeNameToRootTypeName, parseOperationType } from '../../lib/g
 import { unType } from '../../lib/grafaid/typed-document/TypedDocument.js'
 import { isString } from '../../lib/prelude.js'
 import type { CodecString } from '../3_SelectGraphQLMapper/types.js'
-import type { CustomScalarsIndex } from '../4_generator/generators/SchemaIndex.js'
+import type { SchemaDrivenDataMap } from './generator/SchemaDrivenDataMap.js'
 
 /**
  * If a document is given then aliases will be decoded as well.
  */
 export const decodeCustomScalars = (input: {
   data: Grafaid.SomeData | null | undefined
-  customScalarsIndex: CustomScalarsIndex
+  sddm: SchemaDrivenDataMap
   request: Grafaid.RequestInput
 }) => {
   const rootType = parseOperationType(input.request)
   if (!rootType) return
 
-  const customScalarsIndex = input.customScalarsIndex[operationTypeNameToRootTypeName[rootType]]
-  if (!customScalarsIndex) return
+  const sddmOutputObject = input.sddm[operationTypeNameToRootTypeName[rootType]]
+  if (!sddmOutputObject) return
 
   const queryUntyped = unType(input.request.query)
   // todo expose an option to optimize string interface by not parsing it. Explain the caveat of losing support for custom scalars in aliased positions.
@@ -31,17 +31,21 @@ export const decodeCustomScalars = (input: {
 
   decode_({
     data: input.data,
-    customScalarsIndex,
+    sddmOutputObject,
     documentPart: selectionSet,
   })
 }
 
+const isCodecString = (value: unknown): value is CodecString => {
+  return typeof value === `object` && value !== null && `encode` in value && typeof value.encode === `function`
+}
+
 const decode_ = (input: {
   data: Grafaid.SomeData | null | undefined
-  customScalarsIndex: CustomScalarsIndex.OutputObject
+  sddmOutputObject: SchemaDrivenDataMap.OutputObject
   documentPart: null | Grafaid.Nodes.SelectionSetNode
 }): void => {
-  const { data, customScalarsIndex, documentPart } = input
+  const { data, sddmOutputObject, documentPart } = input
   if (!data) return
 
   for (const [k, v] of Object.entries(data)) {
@@ -52,26 +56,22 @@ const decode_ = (input: {
 
     const kSchema = documentField?.name.value ?? k
 
-    const indexField = customScalarsIndex[kSchema]
-    if (!indexField) continue
+    const sddmOutputField = sddmOutputObject[kSchema]
+    if (!sddmOutputField) continue
 
-    const codec = indexField.o
-    if (codec) {
-      data[k] = decodeValue(v, codec)
-      continue
-    }
+    const node = sddmOutputField.nt
 
-    const indexFieldType = indexField.r
-    if (indexFieldType) {
+    if (isCodecString(node)) {
+      data[k] = decodeValue(v, node)
+    } else if (node) {
       decode_({
         data: v,
-        customScalarsIndex: indexFieldType,
+        sddmOutputObject: node,
         documentPart: documentField?.selectionSet ?? null,
       })
-      continue
+    } else {
+      throw new Error(`Unknown index item: ${String(sddmOutputField)}`)
     }
-
-    throw new Error(`Unknown index item: ${String(indexField)}`)
   }
 }
 

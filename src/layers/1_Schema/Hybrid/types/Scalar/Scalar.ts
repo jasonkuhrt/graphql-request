@@ -46,6 +46,9 @@ export interface Scalar<
   codec: Codec<$Decoded, $Encoded>
 }
 
+export const isScalar = (value: unknown): value is Scalar =>
+  typeof value === `object` && value !== null && `codec` in value && typeof value.codec === `object`
+
 export const String = create(`String`, JavaScriptScalarCodecs.String)
 
 export const ID = create(`ID`, JavaScriptScalarCodecs.String)

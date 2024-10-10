@@ -1,93 +1,87 @@
-import { print } from 'graphql'
 import { describe, expect, test } from 'vitest'
-import { db } from '../../../../tests/_/schemas/db.js'
-import { $index as customScalarsIndex } from '../../../../tests/_/schemas/kitchen-sink/graffle/modules/RuntimeCustomScalars.js'
-import type * as SelectionSets from '../../../../tests/_/schemas/kitchen-sink/graffle/modules/SelectionSets.js'
-import { Select } from '../../2_Select/__.js'
-import type { Context } from '../types.js'
-import { toGraphQLDocument } from './Document.js'
+import { db } from '../../../tests/_/schemas/db.js'
+import { $index } from '../../../tests/_/schemas/kitchen-sink/graffle/modules/RuntimeCustomScalars.js'
+import type * as SelectionSets from '../../../tests/_/schemas/kitchen-sink/graffle/modules/SelectionSets.js'
+import { Grafaid } from '../../lib/grafaid/__.js'
+import { Select } from '../2_Select/__.js'
+import { toGraphQL } from './toGraphQL.js'
 
 type CasesQuery = [selectionSet: SelectionSets.Query]
+const testEachQuery = test.for.bind(test)<CasesQuery>
 
 type CasesDescriptiveQuery = [description: string, selectionSet: SelectionSets.Query]
+const testEachQueryWithDescription = test.for.bind(test)<CasesDescriptiveQuery>
 
-const testEachArguments = [
+const tester = [
   `Query - %s`,
-  (...args: CasesQuery | CasesDescriptiveQuery) => {
-    const [description, selectionSet] = args.length === 1 ? [undefined, args[0]] : args
+  (args: CasesQuery | CasesDescriptiveQuery) => {
+    const [description, graffleQuery] = args.length === 1 ? [undefined, args[0]] : args
 
-    const context: Context = {
-      captures: {
-        variables: [],
-        customScalarOutputs: [],
+    const { document, operationsVariables } = toGraphQL({
+      document: Select.Document.createDocumentNormalizedFromQuerySelection(graffleQuery as any),
+      options: {
+        sddm: $index,
+        extractOperationVariables: true,
       },
-    }
-    const documentNormalized = Select.Document.createDocumentNormalizedFromRootTypeSelection(
-      `Query`,
-      selectionSet as any,
-    )
+    })
 
-    const graphqlDocument = toGraphQLDocument(context, customScalarsIndex as any, documentNormalized)
-    const graphqlDocumentStringFormatted = print(graphqlDocument)
-
-    const beforeAfter = `\n`
-      + JSON.stringify(selectionSet, null, 2)
-      + `\n--------------\n`
-      + graphqlDocumentStringFormatted
+    const beforeAndAfter = `\n`
+      + `\n--------------GRAFFLE QUERY-------------\n`
+      + JSON.stringify(graffleQuery, null, 2)
+      + `\n--------GRAPHQL DOCUMENT & VARIABLES--------\n`
+      + Grafaid.Nodes.print(document)
+      + `\n----------------\n`
+      + JSON.stringify(operationsVariables, null, 2)
       + `\n`
-    expect(beforeAfter).toMatchSnapshot(description)
+
+    expect(beforeAndAfter).toMatchSnapshot(description)
   },
 ] as const
 
 describe(`inline fragment`, () => {
   describe(`field group`, () => {
-    test.each<CasesDescriptiveQuery>([
+    testEachQueryWithDescription([
       [`one`, { ___: { __typename: true } }],
       [`multiple`, { ___: [{ __typename: true }, { abcEnum: true }] }],
       [`interface`, { interface: { ___: { __typename: true } } }],
       [`union`, { unionFooBar: { ___: { __typename: true } } }],
       [`directive`, { ___: { __typename: true, $include: true } }],
-    ])(...testEachArguments)
+    ])(...tester)
   })
 
   describe(`type condition union`, () => {
-    test.each<CasesDescriptiveQuery>([
+    testEachQueryWithDescription([
       [`__typename (no fragment)`, { unionFooBar: { __typename: true } }],
       [`scalar`, { unionFooBar: { ___on_Bar: { int: true } } }],
       [`directive`, { unionFooBar: { ___on_Bar: { $skip: true, int: true } } }],
       // s({ unionFooBar: { __on_Bar: {} } }), // todo should be static type error
-    ])(...testEachArguments)
+    ])(...tester)
   })
 })
 
-describe(`enum`, () => {
-  test.each<CasesQuery>([
-    [{ result: { $: { $case: `Object1` }, __typename: true } }],
-  ])(...testEachArguments)
-})
-
 describe(`alias`, () => {
-  test.each<CasesQuery>([
+  testEachQuery([
     [{ id: [`x`, true] }],
     [{ id: [[`x`, true], [`id2`, true]] }],
     [{ id: [`x`, { $skip: true }] }],
     [{ object: [`x`, { $skip: true, id: true }] }],
-  ])(...testEachArguments)
+  ])(...tester)
 })
 
 describe(`arguments`, () => {
-  test.each<CasesQuery>([
+  testEachQuery([
+    [{ result: { $: { $case: `Object1` }, __typename: true } }],
     [{ stringWithArgs: { $: { boolean: true, float: 1 } } }],
     [{ stringWithArgs: { $: {} } }],
     // s({ objectWithArgs: { $: { id: `` } } }), // todo should be static error
     // s({ objectWithArgs: { $: {} } }), // todo should be static error
     [{ objectWithArgs: { $: { id: `` }, id: true } }],
     [{ objectWithArgs: { $: {}, id: true } }],
-  ])(...testEachArguments)
+  ])(...tester)
 
   // dprint-ignore
   describe(`custom scalars`, () => {
-    test.each<CasesDescriptiveQuery>([
+    testEachQueryWithDescription([
       [`arg field`, { dateArg: { $: { date: db.date0 } } }],
       [`arg field in non-null`, { dateArgNonNull: { $: { date: db.date0 } } }], 
       [`arg field in list`, { dateArgList: { $: { date: [db.date0, new Date(1)] } } }], 
@@ -97,13 +91,13 @@ describe(`arguments`, () => {
       [`arg field in non-null list non-null`, { dateArgNonNullListNonNull: { $: { date: [db.date0, new Date(1)] } } }],
       [`input object field`, { dateArgInputObject: { $: { input: { idRequired: ``, dateRequired: db.date0, date: new Date(1) } } } }],
       [`nested input object field`, { InputObjectNested: { $: { input: { InputObject: { idRequired: ``, dateRequired: db.date0, date: new Date(1) } } } } }]
-    ])(...testEachArguments)
+    ])(...tester)
   })
 })
 
 describe(`directive`, () => {
   describe(`$include`, () => {
-    test.each<CasesQuery>([
+    testEachQuery([
       [{ object: { $include: true, id: true } }],
       [{ object: { $include: false, id: true } }],
       [{ object: { $include: undefined, id: true } }],
@@ -111,11 +105,11 @@ describe(`directive`, () => {
       [{ object: { $include: { if: false }, id: true } }],
       [{ object: { $include: { if: undefined }, id: true } }],
       [{ object: { $include: {}, id: true } }],
-    ])(...testEachArguments)
+    ])(...tester)
   })
 
   describe(`$skip`, () => {
-    test.each<CasesQuery>([
+    testEachQuery([
       [{ object: { $skip: true, id: true } }],
       [{ object: { $skip: false, id: true } }],
       [{ object: { $skip: undefined, id: true } }],
@@ -123,12 +117,12 @@ describe(`directive`, () => {
       [{ object: { $skip: { if: false }, id: true } }],
       [{ object: { $skip: { if: undefined }, id: true } }],
       [{ object: { $skip: {}, id: true } }],
-    ])(...testEachArguments)
+    ])(...tester)
   })
 })
 
 describe(`other`, () => {
-  test.each<CasesQuery>([
+  testEachQuery([
     [{ __typename: true }],
     [{ string: true }],
     // [{ string: 1 }],
@@ -139,5 +133,5 @@ describe(`other`, () => {
     [{ object: { id: true } }],
     [{ objectNested: { object: { string: true, id: true, int: false } } }],
     [{ objectNested: { object: { string: true, id: true, int: { $skip: true } } } }],
-  ])(...testEachArguments)
+  ])(...tester)
 })

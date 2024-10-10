@@ -8,11 +8,11 @@ describe(`memory transport`, () => {
   describe(`operationName`, () => {
     test(`undefined by default`, async ({ kitchenSink }) => {
       await kitchenSink.use(Spy()).gql`query { id }`.send()
-      expect(Spy.input).toMatchObject({ request: { operationName: undefined } })
+      expect(Spy.data.exchange.input).toMatchObject({ request: { operationName: undefined } })
     })
     test(`reflects explicit value`, async ({ kitchenSink }) => {
       await kitchenSink.use(Spy()).gql`query foo { id }`.send(`foo`)
-      expect(Spy.input).toMatchObject({ request: { operationName: `foo` } })
+      expect(Spy.data.exchange.input).toMatchObject({ request: { operationName: `foo` } })
     })
   })
 })

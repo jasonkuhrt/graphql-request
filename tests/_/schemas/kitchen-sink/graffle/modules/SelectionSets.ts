@@ -138,6 +138,12 @@ export interface Query {
    */
   abcEnum?: Query.abcEnum$Expanded | $Select.SelectAlias.SelectAlias<Query.abcEnum>
   /**
+   * Select the `argInputObjectCircular` field on the `Query` object. Its type is `String` (a `Scalar`).
+   */
+  argInputObjectCircular?:
+    | Query.argInputObjectCircular$Expanded
+    | $Select.SelectAlias.SelectAlias<Query.argInputObjectCircular>
+  /**
    * Select the `date` field on the `Query` object. Its type is `Date` (a `Scalar`).
    */
   date?: Query.date$Expanded | $Select.SelectAlias.SelectAlias<Query.date>
@@ -398,6 +404,30 @@ export namespace Query {
   export type abcEnum$Expanded = $Select.Indicator.NoArgsIndicator$Expanded
 
   export type abcEnum = $Select.Indicator.NoArgsIndicator
+
+  export type argInputObjectCircular$SelectionSetArguments = {
+    input?: _RefDefs._InputObjectCircular | undefined | null
+  }
+  export type argInputObjectCircular$SelectionSet = $Utilities.Simplify<
+    $Select.Bases.Base & {
+      /**
+       * Arguments for `argInputObjectCircular` field.
+       * No arguments are required so you may omit this.
+       */
+      $?: argInputObjectCircular$SelectionSetArguments
+    }
+  >
+
+  /**
+   * This is the "expanded" version of the `argInputObjectCircular` type. It is identical except for the fact
+   * that IDEs will display its contents (a union type) directly, rather than the name of this type.
+   * In some cases, this is a preferable DX, making the types easier to read for users.
+   */
+  export type argInputObjectCircular$Expanded = $Utilities.UnionExpanded<
+    $Select.Indicator.Indicator | argInputObjectCircular$SelectionSet
+  >
+
+  export type argInputObjectCircular = $Select.Indicator.Indicator | argInputObjectCircular$SelectionSet
 
   /**
    * This is the "expanded" version of the `date` type. It is identical except for the fact
@@ -898,6 +928,11 @@ export interface InputObject {
   dateRequired: $Scalar.DateDecoded
   id?: string | undefined | null
   idRequired: string
+}
+
+export interface InputObjectCircular {
+  circular?: _RefDefs._InputObjectCircular | undefined | null
+  date?: $Scalar.DateDecoded | undefined | null
 }
 
 export interface InputObjectNested {
@@ -2042,6 +2077,7 @@ export namespace _RefDefs {
   export type _ABCEnum = ABCEnum
   export type _Case = Case
   export type _InputObject = InputObject
+  export type _InputObjectCircular = InputObjectCircular
   export type _InputObjectNested = InputObjectNested
   export type _InputObjectNestedNonNull = InputObjectNestedNonNull
   export type _DateInterface1 = DateInterface1

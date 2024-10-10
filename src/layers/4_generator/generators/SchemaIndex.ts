@@ -2,36 +2,12 @@ import { getNamedType, isUnionType } from 'graphql'
 import { Code } from '../../../lib/Code.js'
 import { Grafaid } from '../../../lib/grafaid/__.js'
 import type { Schema } from '../../1_Schema/__.js'
-import type { CodecString } from '../../3_SelectGraphQLMapper/types.js'
+import type { SchemaDrivenDataMap } from '../../7_customScalars/generator/SchemaDrivenDataMap.js'
 import type { GlobalRegistry } from '../globalRegistry.js'
 import { createModuleGenerator } from '../helpers/moduleGenerator.js'
 import { ModuleGeneratorData } from './Data.js'
 import { ModuleGeneratorMethodsRoot } from './MethodsRoot.js'
 import { ModuleGeneratorSchemaBuildtime } from './SchemaBuildtime.js'
-
-export interface CustomScalarsIndex {
-  [Grafaid.Schema.RootTypeName.Mutation]?: CustomScalarsIndex.OutputObject
-  [Grafaid.Schema.RootTypeName.Query]?: CustomScalarsIndex.OutputObject
-  [Grafaid.Schema.RootTypeName.Subscription]?: CustomScalarsIndex.OutputObject
-}
-
-export namespace CustomScalarsIndex {
-  export interface OutputObject {
-    [key: string]: OutputField
-  }
-
-  export interface OutputField {
-    o?: CodecString
-    i?: InputObject
-    r?: OutputObject
-  }
-
-  export interface InputObject {
-    [key: string]: InputField
-  }
-
-  export type InputField = CodecString | InputObject
-}
 
 /**
  * A generic schema index type. Any particular schema index will be a subtype of this, with
@@ -60,7 +36,7 @@ export interface SchemaIndex {
   unions: Record<string, Schema.Output.Union>
   interfaces: Record<string, Schema.Output.Interface>
   customScalars: {
-    input: CustomScalarsIndex
+    input: SchemaDrivenDataMap
   }
   error: {
     objects: Record<string, Schema.Output.Object$2>

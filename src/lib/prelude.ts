@@ -625,3 +625,7 @@ export type IsHasIndexType<T> = string extends keyof T ? true : false
 export const isString = (value: unknown): value is string => {
   return typeof value === 'string'
 }
+
+export const isNonNull = <$Value>(value: $Value): value is ExcludeNull<$Value> => {
+  return value !== null
+}

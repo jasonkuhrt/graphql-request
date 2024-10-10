@@ -66,6 +66,11 @@ input InputObject {
   idRequired: ID!
 }
 
+input InputObjectCircular {
+  circular: InputObjectCircular
+  date: Date
+}
+
 input InputObjectNested {
   InputObject: InputObject
 }
@@ -116,6 +121,7 @@ type Query {
 
   """Query enum field documentation."""
   abcEnum: ABCEnum
+  argInputObjectCircular(input: InputObjectCircular): String
   date: Date
   dateArg(date: Date): Date
   dateArgInputObject(input: InputObject): Date

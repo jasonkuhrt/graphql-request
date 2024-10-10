@@ -1,22 +1,32 @@
 import { Nodes } from '../../../lib/grafaid/_Nodes.js'
 import type { Select } from '../../2_Select/__.js'
-import { advanceIndex, type GraphQLNodeMapper } from '../types.js'
+import type { SchemaDrivenDataMap } from '../../7_customScalars/generator/SchemaDrivenDataMap.js'
+import type { Options } from '../toGraphQL.js'
 import { toGraphQLOperationDefinition } from './OperationDefinition.js'
 
-export const toGraphQLDocument: GraphQLNodeMapper<
-  Nodes.DocumentNode,
-  [document: Select.Document.DocumentNormalized]
-> = (
-  context,
-  index,
-  document,
+const defaultOperationName = `$default`
+
+export const toGraphQLDocument = (
+  document: Select.Document.DocumentNormalized,
+  options?: Options,
 ) => {
   const operations = Object.values(document.operations)
-  const definitions = operations.map(operation => {
-    return toGraphQLOperationDefinition(context, advanceIndex(index, operation.rootType), operation)
+  const sddm: SchemaDrivenDataMap = options?.sddm ?? {}
+
+  const operationsAndVariables = operations.map(operation => {
+    return toGraphQLOperationDefinition(sddm[operation.rootType], operation, options)
   })
 
-  return Nodes.Document({
-    definitions,
+  const graphqlDocument = Nodes.Document({
+    definitions: operationsAndVariables.map(_ => _.operation),
   })
+
+  const operationsVariables = Object.fromEntries(operationsAndVariables.map(_ => {
+    return [_.operation.name ?? defaultOperationName, _.variables]
+  }))
+
+  return {
+    document: graphqlDocument,
+    operationsVariables,
+  }
 }
